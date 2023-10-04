@@ -65,8 +65,10 @@ public class Player implements Moveable, Damagable, Renderable {
 
     public Projectile shoot() {
         Vector2D projectilePosition = new Vector2D(this.position.getX() + width/2, this.position.getY() - 10);
-        return projectileFactory.createProjectile(projectilePosition);
+        return projectileFactory.createProjectile(projectilePosition, Projectile.ProjectileType.PLAYER);
     }
+    
+    
     
 
     @Override

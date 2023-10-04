@@ -2,6 +2,6 @@ package invaders.entities;
 
 import invaders.physics.Vector2D;
 
-abstract class ProjectileFactory {
-    public abstract Projectile createProjectile(Vector2D position);
+public abstract class ProjectileFactory {
+    public abstract Projectile createProjectile(Vector2D position, Projectile.ProjectileType type);
 }

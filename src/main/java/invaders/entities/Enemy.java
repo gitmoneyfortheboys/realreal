@@ -1,6 +1,7 @@
 package invaders.entities;
 
 import invaders.GameObject;
+import invaders.entities.Projectile.ProjectileType;
 import invaders.physics.Vector2D;
 import invaders.rendering.Renderable;
 import javafx.scene.image.Image;
@@ -10,6 +11,9 @@ public class Enemy implements Renderable, GameObject {
     private Vector2D position;
     private Image image;
     private BoxCollider collider;  // Add this line
+    private ProjectileStrategy shootingStrategy;
+    private ProjectileType projectileType = ProjectileType.ENEMY; 
+
 
     private Enemy() {
         // Private constructor to ensure instances are created only through the builder
@@ -49,8 +53,12 @@ public class Enemy implements Renderable, GameObject {
 
     @Override
     public void update() {
-        // Update logic for the enemy
+        if (shootingStrategy != null) {
+            shootingStrategy.shoot(this);
+        }
     }
+
+    
 
     public BoxCollider getCollider() {
         if (collider == null) {
@@ -58,6 +66,19 @@ public class Enemy implements Renderable, GameObject {
         }
         return collider;
     }
+
+    public void setShootingStrategy(ProjectileStrategy strategy) {
+        this.shootingStrategy = strategy;
+    }
+
+    public void setProjectileType(ProjectileType type) {
+        this.projectileType = type;
+    }
+
+    public ProjectileType getProjectileType() {
+        return this.projectileType;
+    }
+
 
     public static class EnemyBuilder {
         private Vector2D position;

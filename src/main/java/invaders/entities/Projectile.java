@@ -6,7 +6,16 @@ import invaders.rendering.Renderable;
 import javafx.scene.image.Image;
 import java.io.File;
 
+
+
 public class Projectile implements Renderable {
+
+    public enum ProjectileType {
+        PLAYER,
+        ENEMY
+    }
+
+    private final ProjectileType type;
 
     private final Vector2D position;
     private final double width = 5;  // Adjust as needed
@@ -15,10 +24,11 @@ public class Projectile implements Renderable {
 
     private final BoxCollider collider;
 
-    public Projectile(Vector2D position){
+    public Projectile(Vector2D position, ProjectileType type){
         this.image = new Image(new File("src/main/resources/projectile.png").toURI().toString(), width, height, true, true);
         this.position = position;
         this.collider = new BoxCollider(width, height, position);
+        this.type = type;
     }
 
     public void moveUp() {
@@ -52,5 +62,9 @@ public class Projectile implements Renderable {
 
     public BoxCollider getCollider() {
         return collider;
+    }
+
+    public ProjectileType getType() {
+        return type;
     }
 }

@@ -9,6 +9,7 @@ import invaders.entities.Enemy;
 import invaders.entities.Player;
 import invaders.entities.PlayerProjectileFactory;
 import invaders.entities.Projectile;
+import invaders.entities.RandomShootingStrategy;
 import invaders.physics.Moveable;
 import invaders.physics.Vector2D;
 import invaders.rendering.Renderable;
@@ -94,9 +95,11 @@ public class GameEngine {
 				double enemyY = ((Long) enemyPosition.get("y")).doubleValue();
 				
 				Enemy enemy = new Enemy.EnemyBuilder()
-				.setPosition(new Vector2D(enemyX, enemyY))
-				.setImage("/enemy.png", 35, 35)  // Updated path
-				.build();
+					.setPosition(new Vector2D(enemyX, enemyY))
+					.setImage("/enemy.png", 35, 35)  // Updated path
+					.build();
+				enemy.setShootingStrategy(new RandomShootingStrategy(this));
+
 			
 
 				gameobjects.add(enemy);
@@ -233,10 +236,15 @@ public class GameEngine {
 		this.right = true;
 	}
 
-	public boolean shootPressed(){
-		Projectile projectile = player.shoot();
-		projectiles.add(projectile);
-		renderables.add(projectile);
+	public boolean shootPressed() {
+		// Assuming you have a way to differentiate between player and enemy shooting
+		if (isPlayerShooting()) {
+			Projectile projectile = player.shoot();
+			projectiles.add(projectile);
+			renderables.add(projectile);
+		} else {
+			// Handle enemy shooting here
+		}
 		return true;
 	}
 	
@@ -258,4 +266,22 @@ public class GameEngine {
 	public double getWindowHeight() {
 		return windowHeight;
 	}
+
+	public int getEnemyProjectilesCount() {
+		return (int) projectiles.stream().filter(projectile -> projectile.getType() == Projectile.ProjectileType.ENEMY).count();
+	}
+	
+	public void addProjectile(Projectile projectile) {
+		projectiles.add(projectile);
+		renderables.add(projectile);
+	}
+	
+
+	private boolean isPlayerShooting() {
+		// Logic to determine if the player is shooting
+		// For now, we'll return true as a placeholder
+		return true;
+	}
+	
+
 }
